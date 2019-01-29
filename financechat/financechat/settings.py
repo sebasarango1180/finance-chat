@@ -27,12 +27,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-rmq_host = os.environ.get('RMQ_HOST', 'localhost')
+rmq_host = os.environ.get('RMQ_HOST', "amqp://guest:guest@127.0.0.1/asgi")
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'chatroom',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,7 +83,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'financechat.wsgi.application'
-
+ASGI_APPLICATION = 'financechat.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
