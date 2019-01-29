@@ -3,4 +3,4 @@ from django.contrib.auth.decorators import login_required
 
 
 def index(request):
-    return render(request, 'chat/index.html', {})
+    return render(request, 'chatroom/index.html', {})
