@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-rmq_host = os.environ.get('RMQ_HOST', "amqp://guest:guest@127.0.0.1/asgi")
+rmq_host = os.environ.get('RMQ_HOST', "amqp://guest:guest@localhost/")
 
 
 # Application definition
