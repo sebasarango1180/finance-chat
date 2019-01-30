@@ -27,7 +27,19 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-rmq_host = os.environ.get('RMQ_HOST', "amqp://guest:guest@localhost/")
+RMQ_SETTINGS = {
+    'RMQ_HOST': os.environ.get('RMQ_HOST', 'localhost'),
+    'RMQ_USER': os.environ.get('RMQ_USER', 'guest'),
+    'RMQ_PASS': os.environ.get('RMQ_PASS', 'guest'),
+}
+
+DB_SETTINGS = {
+    'DB_USER': os.environ.get('DB_USER', 'test'),
+    'DB_PASS': os.environ.get('DB_PASS', 'test1234'),
+    'DB_NAME': os.environ.get('DB_NAME', 'financebot'),
+    'DB_HOST': os.environ.get('DB_HOST', ' ds245523.mlab.com'),
+    'DB_PORT': os.environ.get('DB_PORT', 45523)
+}
 
 
 # Application definition
@@ -48,7 +60,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_rabbitmq.core.RabbitmqChannelLayer",
         "CONFIG": {
-            "host": rmq_host,
+            "host": "amqp://{RMQ_USER}:{RMQ_PASS}@{RMQ_HOST}/".format(**RMQ_SETTINGS),
         },
     },
 }
@@ -90,9 +102,10 @@ ASGI_APPLICATION = 'financechat.routing.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'djongo',
+        'NAME': 'mongodb://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}'.format(**DB_SETTINGS),
     }
+
 }
 
 
