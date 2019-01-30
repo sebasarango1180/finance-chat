@@ -34,11 +34,14 @@ RMQ_SETTINGS = {
 }
 
 DB_SETTINGS = {
-    'DB_USER': os.environ.get('DB_USER', 'test'),
-    'DB_PASS': os.environ.get('DB_PASS', 'test1234'),
-    'DB_NAME': os.environ.get('DB_NAME', 'financebot'),
-    'DB_HOST': os.environ.get('DB_HOST', ' ds245523.mlab.com'),
-    'DB_PORT': os.environ.get('DB_PORT', 45523)
+    'USER': os.environ.get('DB_USER', 'test'),
+    'PASSWORD': os.environ.get('DB_PASS', 'test1234'),
+    'NAME': os.environ.get('DB_NAME', 'financebot'),
+    'HOST': os.environ.get('DB_HOST', 'ds245523.mlab.com'),
+    'PORT': os.environ.get('DB_PORT', 45523),
+    'ENGINE': 'djongo',
+    'AUTH_SOURCE': 'financebot',
+    'AUTH_MECHANISM': 'SCRAM-SHA-1'
 }
 
 
@@ -81,7 +84,7 @@ ROOT_URLCONF = 'financechat.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -101,10 +104,7 @@ ASGI_APPLICATION = 'financechat.routing.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'mongodb://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}'.format(**DB_SETTINGS),
-    }
+    'default': DB_SETTINGS
 
 }
 
@@ -146,3 +146,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = '/chatroom/'
+
+LOGOUT_REDIRECT_URL = '/'
