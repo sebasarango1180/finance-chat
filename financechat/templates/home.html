@@ -4,11 +4,10 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <p><a href="http://localhost:8000/chatroom/">Chat</a></p>
+  Hi, {{ user.username }}!
   <p><a href="{% url 'logout' %}">Log Out</a></p>
 {% else %}
   <p>You are not logged in</p>
-  <a href="{% url 'login' %}">login</a>
+  <a href="{% url 'login' %}">Login</a>
 {% endif %}
 {% endblock %}
