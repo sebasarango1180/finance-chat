@@ -25,7 +25,7 @@ SECRET_KEY = 'i-pe2nm4&9ch7ui6a01jr_dt%l)kh*u#88ig!(cmhw+9h+o83l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 RMQ_SETTINGS = {
     'RMQ_HOST': os.environ.get('RMQ_HOST', 'localhost'),
