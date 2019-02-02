@@ -8,6 +8,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 
+from .models import Message
+
 
 @login_required
 def index(request):
@@ -18,9 +20,14 @@ def index(request):
 @login_required
 def room(request, room_name):
 
-    return render(request, 'chatroom/room.html', {
-        'room_name_json': mark_safe(json.dumps(room_name))
-    })
+    messages = Message.objects.retrieve(room_name)
+
+    context = {
+        'room_name_json': mark_safe(json.dumps(room_name)),
+        'messages': messages
+    }
+
+    return render(request, 'chatroom/room.html', context)
 
 
 class SignUp(generic.CreateView):
