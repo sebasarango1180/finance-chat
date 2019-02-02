@@ -1,6 +1,9 @@
+import json
+
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
-import json
+
+from .models import Message
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -41,6 +44,16 @@ class ChatConsumer(WebsocketConsumer):
                 'author': author
             }
         )
+
+        msg_data = {
+            'text': message,
+            'username': author,
+            'room': self.room_name
+        }
+
+        msg = Message(**msg_data)
+        msg.save()
+
 
     # Receive message from room group
     def chat_message(self, event):
