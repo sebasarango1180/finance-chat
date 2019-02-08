@@ -1,9 +1,13 @@
 import datetime
+# import bson
 
 from djongo import models
+# from djongo.base import DjongoClient
 from django.contrib.auth.models import User
 
 MESSAGES_TO_DISPLAY = 50
+
+# DjongoClient.enforce_schema = False
 
 
 class _MessageManager(models.Manager):
@@ -15,9 +19,10 @@ class _MessageManager(models.Manager):
 
 class Message(models.Model):
 
+    _id = models.ObjectIdField()     # default=bson.ObjectId.from_datetime(datetime.datetime.utcnow()))
     time_published = models.FloatField(default=datetime.datetime.utcnow().timestamp())
-    text = models.TextField(blank=False)
-    username = models.TextField(blank=False)
+    text = models.TextField()
+    username = models.TextField()
     room = models.TextField()
 
     objects = _MessageManager()
@@ -29,6 +34,5 @@ class Message(models.Model):
 class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-
     bio = models.TextField(max_length=400, blank=True)
 
