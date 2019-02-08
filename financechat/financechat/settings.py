@@ -36,14 +36,15 @@ RMQ_SETTINGS = {
 DB_SETTINGS = {
     'USER': os.environ.get('DB_USER', 'test'),
     'PASSWORD': os.environ.get('DB_PASS', 'test1234'),
-    'NAME': os.environ.get('DB_NAME', 'financebot'),
-    'HOST': os.environ.get('DB_HOST', 'ds245523.mlab.com'),
-    'PORT': os.environ.get('DB_PORT', 45523),
+    'NAME': os.environ.get('DB_NAME', 'financechat'),
+    'HOST': os.environ.get('DB_HOST', 'ds227185.mlab.com'),
+    'PORT': os.environ.get('DB_PORT', 27185),
     'ENGINE': 'djongo',
-    'AUTH_SOURCE': 'financebot',
+    'AUTH_SOURCE': 'financechat',
     'AUTH_MECHANISM': 'SCRAM-SHA-1'
 }
 
+# DjongoClient.enforce_schema = False
 
 # Application definition
 
