@@ -2,15 +2,15 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>Chat | {{ room_name_json }}</title>
+    <title>Chat | {{ room_name }}</title>
 </head>
 <body>
     <textarea id="chat-log" cols="100" rows="20"></textarea><br/>
     {% block content %}
         {% for message in messages %}
 
-                <script>document.querySelector('#chat-log').value += ('{{ message.username }}'
-                + ': ' + '{{ message.text }}' + '\n');</script>
+                <script>document.querySelector('#chat-log').value += ('{{ message.author }}'
+                + ': ' + '{{ message.message }}' + '\n');</script>
 
         {% endfor %}
     {% endblock %}
@@ -18,7 +18,7 @@
     <input id="chat-message-submit" type="button" value="Send"/>
 </body>
 <script>
-    var roomName = '{{ room_name_json }}';
+    var roomName = '{{ room_name }}';
     var userName = '{{ user.get_username }}';
 
     var chatSocket = new WebSocket(

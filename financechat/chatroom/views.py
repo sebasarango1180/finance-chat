@@ -22,11 +22,11 @@ def room(request, room_name):
 
     messages = Message.objects.retrieve(room_name)
 
-    contents = [(msg.username, msg.text) for msg in messages]
+    contents = [{'author': msg.username, 'message': msg.text} for msg in messages]
 
     context = {
-        'room_name_json': mark_safe(room_name),
-        'messages': mark_safe(json.dumps(contents))
+        'room_name': mark_safe(room_name),
+        'messages': contents
     }
 
     return render(request, 'chatroom/room.html', context)
