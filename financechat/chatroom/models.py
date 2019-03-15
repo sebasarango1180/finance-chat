@@ -33,6 +33,9 @@ class Message(models.Model):
 
 class Profile(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    bio = models.TextField(max_length=400, blank=True)
+    username = models.TextField(null=True)
+    fullname = models.TextField(null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    organization = models.TextField(max_length=50, blank=True, null=True)
+    bio = models.TextField(max_length=300, blank=True, null=True)
 
