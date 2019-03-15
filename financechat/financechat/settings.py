@@ -33,6 +33,8 @@ RMQ_SETTINGS = {
     'RMQ_PASS': os.environ.get('RMQ_PASS', 'guest'),
 }
 
+# To execute RabbitMQ with Docker: docker run --rm -it -p 5672:5672 rabbitmq:3.7.8-alpine
+
 DB_SETTINGS = {
     'USER': os.environ.get('DB_USER', 'test'),
     'PASSWORD': os.environ.get('DB_PASS', 'test1234'),
