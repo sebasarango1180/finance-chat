@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  Welcome, {{ user.username }}!
+  <p><a href="{% url 'chatroom' %}">Chat</a></p>
+  <p><a href="{% url 'profile' %}">Profile</a></p>
+  <p><a href="{% url 'logout' %}">Log Out</a></p>
+{% else %}
+  <p>Please log in or register to enter</p>
+  <p><a href="{% url 'login' %}">Log in</a></p>
+  <p><a href="{% url 'register' %}">Register</a></p>
+{% endif %}
+{% endblock %}

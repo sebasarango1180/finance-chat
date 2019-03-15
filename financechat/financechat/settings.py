@@ -25,12 +25,32 @@ SECRET_KEY = 'i-pe2nm4&9ch7ui6a01jr_dt%l)kh*u#88ig!(cmhw+9h+o83l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+RMQ_SETTINGS = {
+    'RMQ_HOST': os.environ.get('RMQ_HOST', 'localhost'),
+    'RMQ_USER': os.environ.get('RMQ_USER', 'guest'),
+    'RMQ_PASS': os.environ.get('RMQ_PASS', 'guest'),
+}
+
+DB_SETTINGS = {
+    'USER': os.environ.get('DB_USER', 'test'),
+    'PASSWORD': os.environ.get('DB_PASS', 'test1234'),
+    'NAME': os.environ.get('DB_NAME', 'financechat'),
+    'HOST': os.environ.get('DB_HOST', 'ds227185.mlab.com'),
+    'PORT': os.environ.get('DB_PORT', 27185),
+    'ENGINE': 'djongo',
+    'AUTH_SOURCE': 'financechat',
+    'AUTH_MECHANISM': 'SCRAM-SHA-1'
+}
+
+# DjongoClient.enforce_schema = False
 
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'chatroom',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,6 +58,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_rabbitmq.core.RabbitmqChannelLayer",
+        "CONFIG": {
+            "host": "amqp://{RMQ_USER}:{RMQ_PASS}@{RMQ_HOST}/".format(**RMQ_SETTINGS),
+        },
+    },
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,7 +85,7 @@ ROOT_URLCONF = 'financechat.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,16 +99,14 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'financechat.wsgi.application'
-
+ASGI_APPLICATION = 'financechat.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': DB_SETTINGS
+
 }
 
 
@@ -118,3 +147,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = '/chatroom/'
+
+LOGOUT_REDIRECT_URL = '/'
